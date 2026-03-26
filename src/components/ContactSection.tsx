@@ -1,6 +1,8 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const info = [
   { icon: MapPin, label: "Address", value: "Near Earth Allyssum, Bhaili, Vadodara, Gujarat" },
@@ -55,25 +57,45 @@ export default function ContactSection() {
                 </div>
               ) : (
                 <form
-                  onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const form = e.currentTarget;
+                    const formData = new FormData(form);
+                    const { error } = await supabase.from("inquiries").insert({
+                      parent_name: String(formData.get("name")).trim(),
+                      email: String(formData.get("email")).trim(),
+                      message: String(formData.get("message")).trim(),
+                    });
+                    if (error) {
+                      toast.error("Failed to send message. Please try again.");
+                    } else {
+                      setSubmitted(true);
+                    }
+                  }}
                   className="space-y-4"
                 >
                   <input
+                    name="name"
                     type="text"
                     placeholder="Your Name"
                     required
+                    maxLength={100}
                     className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
                   />
                   <input
+                    name="email"
                     type="email"
                     placeholder="Your Email"
                     required
+                    maxLength={255}
                     className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
                   />
                   <textarea
+                    name="message"
                     placeholder="Your Message"
                     rows={4}
                     required
+                    maxLength={1000}
                     className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow resize-none"
                   />
                   <button
