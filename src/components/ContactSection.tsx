@@ -1,6 +1,8 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const info = [
   { icon: MapPin, label: "Address", value: "Near Earth Allyssum, Bhaili, Vadodara, Gujarat" },
