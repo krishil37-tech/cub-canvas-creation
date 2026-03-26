@@ -5,8 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const info = [
-  { icon: MapPin, label: "Address", value: "Near Earth Allyssum, Bhaili, Vadodara, Gujarat" },
-  { icon: Phone, label: "Phone", value: "+91 265-2650XXX" },
+  { icon: MapPin, label: "Address", value: "Plot No. 436, Vasna, Vasna Bhayli Canal Rd, Bhayli, Vadodara, Gujarat 391410" },
+  { icon: Phone, label: "Phone", value: "07600360036" },
   { icon: Mail, label: "Email", value: "cubs@iira.co.in" },
   { icon: Clock, label: "Office Hours", value: "Mon–Sat: 8:00 AM – 4:00 PM" },
 ];
