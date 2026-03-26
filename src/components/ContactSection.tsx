@@ -3,17 +3,19 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-
-const info = [
-  { icon: MapPin, label: "Address", value: "Plot No. 436, Vasna, Vasna Bhayli Canal Rd, Bhayli, Vadodara, Gujarat 391410" },
-  { icon: Phone, label: "Phone", value: "07600360036" },
-  { icon: Mail, label: "Email", value: "cubs@iira.co.in" },
-  { icon: Clock, label: "Office Hours", value: "Mon–Sat: 8:00 AM – 4:00 PM" },
-];
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 export default function ContactSection() {
   const { ref, isVisible } = useScrollReveal();
   const [submitted, setSubmitted] = useState(false);
+  const { get } = useSiteContent();
+
+  const info = [
+    { icon: MapPin, label: "Address", value: get("contact", "address", "Plot No. 436, Vasna, Vasna Bhayli Canal Rd, Bhayli, Vadodara, Gujarat 391410") },
+    { icon: Phone, label: "Phone", value: get("contact", "phone", "07600360036") },
+    { icon: Mail, label: "Email", value: get("contact", "email", "cubs@iira.co.in") },
+    { icon: Clock, label: "Office Hours", value: get("contact", "hours", "Mon–Sat: 8:00 AM – 4:00 PM") },
+  ];
 
   return (
     <section id="contact" ref={ref} className="py-20 lg:py-28 bg-warm">
@@ -26,7 +28,6 @@ export default function ContactSection() {
         </div>
 
         <div className="mt-14 grid lg:grid-cols-2 gap-12">
-          {/* Info */}
           <div className={isVisible ? "animate-fade-in-left" : "opacity-0"} style={{ animationDelay: "0.15s" }}>
             <div className="space-y-6">
               {info.map((item) => (
@@ -43,7 +44,6 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Form */}
           <div className={isVisible ? "animate-fade-in-right" : "opacity-0"} style={{ animationDelay: "0.25s" }}>
             <div className="bg-card rounded-2xl p-6 lg:p-8 shadow-sm shadow-foreground/5 border border-border">
               <h3 className="font-display font-bold text-xl text-foreground mb-6">Send us a Message</h3>
@@ -74,34 +74,10 @@ export default function ContactSection() {
                   }}
                   className="space-y-4"
                 >
-                  <input
-                    name="name"
-                    type="text"
-                    placeholder="Your Name"
-                    required
-                    maxLength={100}
-                    className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
-                  />
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="Your Email"
-                    required
-                    maxLength={255}
-                    className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
-                  />
-                  <textarea
-                    name="message"
-                    placeholder="Your Message"
-                    rows={4}
-                    required
-                    maxLength={1000}
-                    className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow resize-none"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full bg-primary text-primary-foreground font-bold font-body py-3 rounded-lg hover:opacity-90 active:scale-[0.98] transition-all"
-                  >
+                  <input name="name" type="text" placeholder="Your Name" required maxLength={100} className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow" />
+                  <input name="email" type="email" placeholder="Your Email" required maxLength={255} className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow" />
+                  <textarea name="message" placeholder="Your Message" rows={4} required maxLength={1000} className="w-full bg-background border border-border rounded-lg px-4 py-3 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow resize-none" />
+                  <button type="submit" className="w-full bg-primary text-primary-foreground font-bold font-body py-3 rounded-lg hover:opacity-90 active:scale-[0.98] transition-all">
                     Send Message
                   </button>
                 </form>
