@@ -56,6 +56,33 @@ export type Database = {
         }
         Relationships: []
       }
+      gallery_images: {
+        Row: {
+          created_at: string
+          id: string
+          image_path: string
+          is_visible: boolean
+          label: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_path: string
+          is_visible?: boolean
+          label?: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_path?: string
+          is_visible?: boolean
+          label?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       inquiries: {
         Row: {
           child_age: string | null
