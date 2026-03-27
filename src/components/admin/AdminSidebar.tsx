@@ -1,4 +1,4 @@
-import { LayoutDashboard, MessageSquare, GraduationCap, FileText, Star, LogOut } from "lucide-react";
+import { LayoutDashboard, MessageSquare, GraduationCap, FileText, Star, Image, LogOut } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import {
@@ -19,6 +19,7 @@ const items = [
   { title: "Admissions", url: "/admin/admissions", icon: GraduationCap },
   { title: "Content", url: "/admin/content", icon: FileText },
   { title: "Testimonials", url: "/admin/testimonials", icon: Star },
+  { title: "Images", url: "/admin/images", icon: Image },
 ];
 
 interface Props {

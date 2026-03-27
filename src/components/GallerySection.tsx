@@ -1,9 +1,19 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import hero1 from "@/assets/hero-1.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import whyChoose from "@/assets/why-choose.jpg";
 
-const images = [
+type GalleryImage = {
+  id: string;
+  image_path: string;
+  label: string;
+  sort_order: number;
+  is_visible: boolean;
+};
+
+const fallbackImages = [
   { src: hero1, label: "Campus Life" },
   { src: hero2, label: "Classroom Fun" },
   { src: whyChoose, label: "Outdoor Learning" },
@@ -12,8 +22,27 @@ const images = [
   { src: whyChoose, label: "Nature Walks" },
 ];
 
+function getPublicUrl(path: string) {
+  const { data } = supabase.storage.from("site-images").getPublicUrl(path);
+  return data.publicUrl;
+}
+
 export default function GallerySection() {
   const { ref, isVisible } = useScrollReveal();
+  const [images, setImages] = useState<{ src: string; label: string }[]>(fallbackImages);
+
+  useEffect(() => {
+    supabase
+      .from("gallery_images")
+      .select("*")
+      .eq("is_visible", true)
+      .order("sort_order")
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setImages(data.map((img) => ({ src: getPublicUrl(img.image_path), label: img.label })));
+        }
+      });
+  }, []);
 
   return (
     <section id="gallery" ref={ref} className="py-20 lg:py-28 bg-warm">
