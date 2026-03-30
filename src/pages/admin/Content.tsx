@@ -1,110 +1,69 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { Plus, Save, Trash2 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Home, Heart, Sparkles, Trophy, Calendar, Users, GraduationCap,
+  Image, Star, BookOpen, School, FileText, HelpCircle, MapPin, Share2,
+} from "lucide-react";
 
-type ContentItem = {
-  id: string;
-  section: string;
-  key: string;
-  value: string;
-};
+import HomeAdminSection from "@/components/admin/sections/HomeAdminSection";
+import WhyChooseUsAdminSection from "@/components/admin/sections/WhyChooseUsAdminSection";
+import SpecialtiesAdminSection from "@/components/admin/sections/SpecialtiesAdminSection";
+import AchievementsAdminSection from "@/components/admin/sections/AchievementsAdminSection";
+import EventsAdminSection from "@/components/admin/sections/EventsAdminSection";
+import LeadershipAdminSection from "@/components/admin/sections/LeadershipAdminSection";
+import EducatorsAdminSection from "@/components/admin/sections/EducatorsAdminSection";
+import GalleryAdminSection from "@/components/admin/sections/GalleryAdminSection";
+import TestimonialsAdminSection from "@/components/admin/sections/TestimonialsAdminSection";
+import BlogsAdminSection from "@/components/admin/sections/BlogsAdminSection";
+import AdmissionsAdminSection from "@/components/admin/sections/AdmissionsAdminSection";
+import ResourcesAdminSection from "@/components/admin/sections/ResourcesAdminSection";
+import FAQAdminSection from "@/components/admin/sections/FAQAdminSection";
+import ContactAdminSection from "@/components/admin/sections/ContactAdminSection";
+import SocialLinksAdminSection from "@/components/admin/sections/SocialLinksAdminSection";
+
+const sections = [
+  { id: "home", label: "Home", subtitle: "Hero, Stats & CTA", icon: Home, Component: HomeAdminSection },
+  { id: "why", label: "Why Choose Us", subtitle: "More Than a School", icon: Heart, Component: WhyChooseUsAdminSection },
+  { id: "specialties", label: "Our Specialties", subtitle: "What Makes Us Special", icon: Sparkles, Component: SpecialtiesAdminSection },
+  { id: "achievements", label: "Our Achievements", subtitle: "A Tradition of Excellence", icon: Trophy, Component: AchievementsAdminSection },
+  { id: "events", label: "School Events", subtitle: "Upcoming & Past Events", icon: Calendar, Component: EventsAdminSection },
+  { id: "leadership", label: "Our Pillars", subtitle: "Meet Our Leadership", icon: Users, Component: LeadershipAdminSection },
+  { id: "educators", label: "Our Educators", subtitle: "Meet Our Teachers", icon: GraduationCap, Component: EducatorsAdminSection },
+  { id: "gallery", label: "Gallery", subtitle: "Campus Life", icon: Image, Component: GalleryAdminSection },
+  { id: "testimonials", label: "Testimonials", subtitle: "What People Say", icon: Star, Component: TestimonialsAdminSection },
+  { id: "blogs", label: "Community Blogs", subtitle: "Voices from IIRA", icon: BookOpen, Component: BlogsAdminSection },
+  { id: "admissions", label: "Admissions", subtitle: "Enrollment Information", icon: School, Component: AdmissionsAdminSection },
+  { id: "resources", label: "Resources", subtitle: "Downloads & Documents", icon: FileText, Component: ResourcesAdminSection },
+  { id: "faq", label: "FAQ", subtitle: "Frequently Asked Questions", icon: HelpCircle, Component: FAQAdminSection },
+  { id: "contact", label: "Contact", subtitle: "Address, Phone & Social", icon: MapPin, Component: ContactAdminSection },
+  { id: "social", label: "Social Media", subtitle: "Platform Links", icon: Share2, Component: SocialLinksAdminSection },
+];
 
 export default function Content() {
-  const [items, setItems] = useState<ContentItem[]>([]);
-  const [newSection, setNewSection] = useState("");
-  const [newKey, setNewKey] = useState("");
-  const [newValue, setNewValue] = useState("");
-  const { toast } = useToast();
-
-  const load = async () => {
-    const { data } = await supabase.from("site_content").select("*").order("section");
-    if (data) setItems(data);
-  };
-
-  useEffect(() => { load(); }, []);
-
-  const save = async (id: string, value: string) => {
-    const { error } = await supabase.from("site_content").update({ value }).eq("id", id);
-    if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
-    else toast({ title: "Saved" });
-  };
-
-  const add = async () => {
-    if (!newSection || !newKey || !newValue) return;
-    const { error } = await supabase.from("site_content").insert({ section: newSection, key: newKey, value: newValue });
-    if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
-    else { setNewSection(""); setNewKey(""); setNewValue(""); load(); }
-  };
-
-  const remove = async (id: string) => {
-    const { error } = await supabase.from("site_content").delete().eq("id", id);
-    if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
-    else load();
-  };
-
-  const sections = [...new Set(items.map(i => i.section))];
-
   return (
     <div>
-      <h1 className="text-2xl font-bold font-display text-foreground mb-6">Site Content</h1>
+      <h1 className="text-2xl font-bold font-display text-foreground mb-6">Website Content</h1>
+      <p className="text-sm text-muted-foreground font-body mb-6">Manage all sections of your website from here. Click a section to expand and edit.</p>
 
-      <Card className="mb-6">
-        <CardHeader><CardTitle className="text-base font-body">Add New Content</CardTitle></CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <Label className="font-body">Section</Label>
-              <Input placeholder="e.g. hero" value={newSection} onChange={e => setNewSection(e.target.value)} />
-            </div>
-            <div>
-              <Label className="font-body">Key</Label>
-              <Input placeholder="e.g. title" value={newKey} onChange={e => setNewKey(e.target.value)} />
-            </div>
-            <div className="flex items-end">
-              <Button onClick={add} className="font-body"><Plus className="h-4 w-4 mr-1" /> Add</Button>
-            </div>
-          </div>
-          <div className="mt-3">
-            <Label className="font-body">Value</Label>
-            <Textarea placeholder="Content value…" value={newValue} onChange={e => setNewValue(e.target.value)} />
-          </div>
-        </CardContent>
-      </Card>
-
-      {sections.map(section => (
-        <Card key={section} className="mb-4">
-          <CardHeader><CardTitle className="text-base font-body capitalize">{section}</CardTitle></CardHeader>
-          <CardContent className="space-y-4">
-            {items.filter(i => i.section === section).map(item => (
-              <div key={item.id} className="flex gap-3 items-start">
-                <div className="flex-1">
-                  <Label className="font-body text-muted-foreground text-xs">{item.key}</Label>
-                  <Textarea
-                    defaultValue={item.value}
-                    onBlur={e => { if (e.target.value !== item.value) save(item.id, e.target.value); }}
-                    className="mt-1"
-                  />
+      <Accordion type="single" collapsible className="space-y-2">
+        {sections.map(({ id, label, subtitle, icon: Icon, Component }) => (
+          <AccordionItem key={id} value={id} className="border border-border rounded-xl overflow-hidden bg-card px-0">
+            <AccordionTrigger className="px-5 py-4 hover:no-underline hover:bg-muted/30">
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <Icon className="h-4.5 w-4.5 text-primary" />
                 </div>
-                <div className="flex gap-1 pt-5">
-                  <Button size="icon" variant="ghost" className="text-destructive h-8 w-8" onClick={() => remove(item.id)}>
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                <div>
+                  <div className="font-display font-bold text-sm text-foreground">{label}</div>
+                  <div className="text-xs text-muted-foreground font-body">{subtitle}</div>
                 </div>
               </div>
-            ))}
-          </CardContent>
-        </Card>
-      ))}
-
-      {items.length === 0 && (
-        <p className="text-muted-foreground text-center py-8 font-body">No content items yet. Add your first one above.</p>
-      )}
+            </AccordionTrigger>
+            <AccordionContent className="px-5 pb-5">
+              <Component />
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </div>
   );
 }

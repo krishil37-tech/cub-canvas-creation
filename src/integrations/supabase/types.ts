@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          is_visible: boolean
+          sort_order: number
+          title: string
+          year: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          is_visible?: boolean
+          sort_order?: number
+          title: string
+          year?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          is_visible?: boolean
+          sort_order?: number
+          title?: string
+          year?: string
+        }
+        Relationships: []
+      }
       admissions: {
         Row: {
           child_name: string
@@ -53,6 +86,129 @@ export type Database = {
           program?: string
           status?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      blogs: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          is_visible: boolean
+          link: string
+          sort_order: number
+          title: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_visible?: boolean
+          link?: string
+          sort_order?: number
+          title: string
+          type?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_visible?: boolean
+          link?: string
+          sort_order?: number
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      educators: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          is_visible: boolean
+          name: string
+          photo_path: string | null
+          sort_order: number
+          subject: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_visible?: boolean
+          name: string
+          photo_path?: string | null
+          sort_order?: number
+          subject?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_visible?: boolean
+          name?: string
+          photo_path?: string | null
+          sort_order?: number
+          subject?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          created_at: string
+          description: string
+          event_date: string
+          id: string
+          is_visible: boolean
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          event_date?: string
+          id?: string
+          is_visible?: boolean
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          event_date?: string
+          id?: string
+          is_visible?: boolean
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      faq_items: {
+        Row: {
+          answer: string
+          created_at: string
+          id: string
+          is_visible: boolean
+          question: string
+          sort_order: number
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          question: string
+          sort_order?: number
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          question?: string
+          sort_order?: number
         }
         Relationships: []
       }
@@ -122,6 +278,69 @@ export type Database = {
         }
         Relationships: []
       }
+      leadership_members: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          is_visible: boolean
+          name: string
+          photo_path: string | null
+          role: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_visible?: boolean
+          name: string
+          photo_path?: string | null
+          role?: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_visible?: boolean
+          name?: string
+          photo_path?: string | null
+          role?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      resources: {
+        Row: {
+          created_at: string
+          description: string
+          file_path: string
+          id: string
+          is_visible: boolean
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          file_path: string
+          id?: string
+          is_visible?: boolean
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          file_path?: string
+          id?: string
+          is_visible?: boolean
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
       site_content: {
         Row: {
           id: string
@@ -146,6 +365,63 @@ export type Database = {
         }
         Relationships: []
       }
+      social_links: {
+        Row: {
+          created_at: string
+          id: string
+          is_visible: boolean
+          platform: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          platform: string
+          sort_order?: number
+          url?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          platform?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: []
+      }
+      specialties: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          is_visible: boolean
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          is_visible?: boolean
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          is_visible?: boolean
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           child_info: string | null
@@ -153,6 +429,8 @@ export type Database = {
           id: string
           is_visible: boolean | null
           parent_name: string
+          photo_path: string | null
+          photo_position: string | null
           quote: string
           rating: number | null
         }
@@ -162,6 +440,8 @@ export type Database = {
           id?: string
           is_visible?: boolean | null
           parent_name: string
+          photo_path?: string | null
+          photo_position?: string | null
           quote: string
           rating?: number | null
         }
@@ -171,6 +451,8 @@ export type Database = {
           id?: string
           is_visible?: boolean | null
           parent_name?: string
+          photo_path?: string | null
+          photo_position?: string | null
           quote?: string
           rating?: number | null
         }
