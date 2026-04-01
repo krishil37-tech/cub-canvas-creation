@@ -11,10 +11,8 @@ const defaults: Achievement[] = [
   { id: "2", icon: "Award", year: "2023", title: "Excellence in Education", description: "Awarded for academic excellence and innovative teaching methodologies." },
 ];
 
-function getIcon(name: string) {
-  const Icon = (LucideIcons as Record<string, React.ElementType>)[name];
-  return Icon || LucideIcons.Trophy;
-}
+const iconMap: Record<string, React.ElementType> = { Trophy, Award, Star, Medal, Crown, Shield, Target, Zap, GraduationCap };
+function getIcon(name: string) { return iconMap[name] || Trophy; }
 
 export default function AchievementsSection() {
   const { ref, isVisible } = useScrollReveal();

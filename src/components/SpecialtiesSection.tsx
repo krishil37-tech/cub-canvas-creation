@@ -12,10 +12,8 @@ const defaultSpecialties = [
   { id: "3", icon: "Heart", title: "Stress-Free Learning", description: "A nurturing environment that promotes joyful, pressure-free education.", sort_order: 2 },
 ];
 
-function getIcon(name: string) {
-  const Icon = (LucideIcons as Record<string, React.ElementType>)[name];
-  return Icon || LucideIcons.Star;
-}
+const iconMap: Record<string, React.ElementType> = { BookOpen, Users, Heart, Star, Shield, Palette, Music, Leaf, Puzzle, Shapes, GraduationCap, Globe, Lightbulb, Target, Zap, Award, Trophy };
+function getIcon(name: string) { return iconMap[name] || Star; }
 
 export default function SpecialtiesSection() {
   const { ref, isVisible } = useScrollReveal();
