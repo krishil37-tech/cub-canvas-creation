@@ -1,7 +1,7 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import * as LucideIcons from "lucide-react";
+import { BookOpen, Users, Heart, Star, Shield, Palette, Music, Leaf, Puzzle, Shapes, GraduationCap, Globe, Lightbulb, Target, Zap, Award, Trophy } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
 type Specialty = { id: string; icon: string; title: string; description: string; sort_order: number };

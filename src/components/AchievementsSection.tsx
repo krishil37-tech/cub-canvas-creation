@@ -1,7 +1,7 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import * as LucideIcons from "lucide-react";
+import { Trophy, Award, Star, Medal, Crown, Shield, Target, Zap, GraduationCap } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
 type Achievement = { id: string; icon: string; year: string; title: string; description: string };
