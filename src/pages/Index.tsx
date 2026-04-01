@@ -9,11 +9,13 @@ import AdmissionsSection from "@/components/AdmissionsSection";
 import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
+      <WhatsAppButton />
       <HeroSection />
       <StatsBar />
       <WhyChooseUs />
