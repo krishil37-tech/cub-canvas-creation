@@ -1,7 +1,7 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, HelpCircle } from "lucide-react";
 
 type FaqItem = { id: string; question: string; answer: string };
 
@@ -30,21 +30,31 @@ export default function FAQSection() {
           <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
             Frequently Asked Questions
           </h2>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+            Everything you need to know about IIRA International School.
+          </p>
         </div>
         <div className={`mt-12 space-y-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.2s" }}>
           {faqs.map((faq, i) => (
-            <div key={faq.id} className="bg-card border border-border rounded-xl overflow-hidden">
-              <button onClick={() => setOpen(open === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left hover:bg-secondary/50 transition-colors active:scale-[0.995]">
-                <span className="font-bold font-body text-foreground pr-4">{faq.question}</span>
-                <ChevronDown size={20} className={`text-muted-foreground flex-shrink-0 transition-transform duration-200 ${open === i ? "rotate-180" : ""}`} />
+            <div key={faq.id} className="bg-card border border-border rounded-xl overflow-hidden transition-shadow hover:shadow-sm">
+              <button onClick={() => setOpen(open === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left hover:bg-secondary/30 transition-colors active:scale-[0.995]">
+                <span className="font-bold font-body text-foreground pr-4 text-[15px]">{faq.question}</span>
+                <ChevronDown size={20} className={`text-muted-foreground flex-shrink-0 transition-transform duration-300 ${open === i ? "rotate-180 text-primary" : ""}`} />
               </button>
-              {open === i && (
+              <div className={`overflow-hidden transition-all duration-300 ${open === i ? "max-h-96" : "max-h-0"}`}>
                 <div className="px-5 pb-5 text-muted-foreground font-body text-sm leading-relaxed border-t border-border pt-4">
                   {faq.answer}
                 </div>
-              )}
+              </div>
             </div>
           ))}
+        </div>
+
+        <div className={`mt-10 text-center ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.3s" }}>
+          <p className="text-sm text-muted-foreground font-body">
+            Still have questions?{" "}
+            <a href="#contact" className="text-primary font-semibold hover:underline">Get in touch</a>
+          </p>
         </div>
       </div>
     </section>

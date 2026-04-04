@@ -26,7 +26,7 @@ export default function AchievementsSection() {
   }, []);
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-warm">
+    <section id="achievements" ref={ref} className="py-20 lg:py-28 bg-warm">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
           <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
@@ -35,17 +35,20 @@ export default function AchievementsSection() {
           <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
             {get("achievements", "section_title", "A Tradition of Excellence")}
           </h2>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+            Our commitment to excellence has been recognized at state and national levels.
+          </p>
         </div>
-        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {items.map((item, i) => {
             const Icon = getIcon(item.icon);
             return (
-              <div key={item.id} className={`bg-card rounded-2xl p-6 shadow-sm shadow-foreground/5 border border-border ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.1}s` }}>
+              <div key={item.id} className={`card-elevated group ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Icon size={20} className="text-primary" />
+                  <div className="w-11 h-11 rounded-xl bg-primary/10 group-hover:bg-primary/15 flex items-center justify-center transition-colors">
+                    <Icon size={22} className="text-primary" />
                   </div>
-                  <span className="text-xs font-bold font-body text-muted-foreground bg-secondary px-3 py-1 rounded-full">{item.year}</span>
+                  <span className="text-xs font-extrabold font-body text-primary bg-primary/10 px-3 py-1 rounded-full">{item.year}</span>
                 </div>
                 <h3 className="text-lg font-display font-bold text-foreground">{item.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground font-body leading-relaxed">{item.description}</p>
