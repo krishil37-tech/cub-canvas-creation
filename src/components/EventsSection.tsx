@@ -1,7 +1,7 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, ArrowRight } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
@@ -31,11 +31,11 @@ export default function EventsSection() {
             {get("events", "section_title", "Upcoming & Past Events")}
           </h2>
         </div>
-        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {events.map((ev, i) => (
-            <div key={ev.id} className={`bg-card rounded-2xl p-6 shadow-sm shadow-foreground/5 border border-border ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
+            <div key={ev.id} className={`card-elevated group ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.07}s` }}>
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                   <CalendarDays size={20} className="text-primary" />
                 </div>
                 <span className="text-xs font-bold font-body text-muted-foreground">{format(parseISO(ev.event_date), "MMMM d, yyyy")}</span>

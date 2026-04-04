@@ -33,16 +33,19 @@ export default function LeadershipSection() {
           <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
             {get("leadership", "section_title", "Meet Our Leadership")}
           </h2>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+            Visionary leaders dedicated to shaping the future of education.
+          </p>
         </div>
-        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className={`mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 ${members.length <= 2 ? "max-w-3xl mx-auto" : ""}`}>
           {members.map((m, i) => {
             const photo = getPhotoUrl(m.photo_path);
             return (
-              <div key={m.id} className={`bg-card rounded-2xl overflow-hidden shadow-sm shadow-foreground/5 border border-border ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.1}s` }}>
-                {photo && <img src={photo} alt={m.name} className="w-full h-56 object-cover" />}
+              <div key={m.id} className={`card-elevated overflow-hidden p-0 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.1}s` }}>
+                {photo && <img src={photo} alt={m.name} className="w-full h-60 object-cover" loading="lazy" />}
                 <div className="p-6">
                   <h3 className="font-display font-bold text-lg text-foreground">{m.name}</h3>
-                  <p className="text-xs font-body font-semibold text-primary mt-1">{m.role}</p>
+                  <p className="text-xs font-body font-bold text-primary mt-1 uppercase tracking-wider">{m.role}</p>
                   <p className="mt-3 text-sm text-muted-foreground font-body leading-relaxed">{m.description}</p>
                 </div>
               </div>
