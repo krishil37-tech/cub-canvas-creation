@@ -31,17 +31,20 @@ export default function ResourcesSection() {
           <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
             {get("resources", "section_title", "Downloads & Documents")}
           </h2>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+            Access important school documents and resources.
+          </p>
         </div>
-        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {resources.map((r, i) => (
-            <div key={r.id} className={`bg-card rounded-2xl p-6 shadow-sm shadow-foreground/5 border border-border flex flex-col ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <FileText size={20} className="text-primary" />
+            <div key={r.id} className={`card-elevated flex flex-col ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.07}s` }}>
+              <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                <FileText size={22} className="text-primary" />
               </div>
               <h3 className="text-lg font-display font-bold text-foreground">{r.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground font-body leading-relaxed flex-1">{r.description}</p>
-              <a href={getUrl(r.file_path)} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1.5 text-sm font-body font-semibold text-primary hover:underline">
-                <Download size={14} /> Download
+              <a href={getUrl(r.file_path)} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-body font-bold text-primary hover:underline">
+                <Download size={15} /> Download
               </a>
             </div>
           ))}

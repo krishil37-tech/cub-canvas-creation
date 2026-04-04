@@ -22,21 +22,23 @@ const Index = () => {
     <div className="min-h-screen">
       <Navbar />
       <WhatsAppButton />
-      <HeroSection />
-      <StatsBar />
-      <WhyChooseUs />
-      <SpecialtiesSection />
-      <AchievementsSection />
-      <EventsSection />
-      <LeadershipSection />
-      <EducatorsSection />
-      <GallerySection />
-      <TestimonialsSection />
-      <BlogsSection />
-      <AdmissionsSection />
-      <ResourcesSection />
-      <FAQSection />
-      <ContactSection />
+      <main>
+        <HeroSection />
+        <StatsBar />
+        <WhyChooseUs />
+        <SpecialtiesSection />
+        <AchievementsSection />
+        <EventsSection />
+        <LeadershipSection />
+        <EducatorsSection />
+        <GallerySection />
+        <TestimonialsSection />
+        <BlogsSection />
+        <AdmissionsSection />
+        <ResourcesSection />
+        <FAQSection />
+        <ContactSection />
+      </main>
       <Footer />
     </div>
   );
