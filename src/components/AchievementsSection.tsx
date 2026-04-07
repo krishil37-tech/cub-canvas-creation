@@ -29,13 +29,13 @@ export default function AchievementsSection() {
     <section id="achievements" ref={ref} className="py-20 lg:py-28 bg-warm">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>
             {get("achievements", "section_label", "Our Achievements")}
           </span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             {get("achievements", "section_title", "A Tradition of Excellence")}
           </h2>
-          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
             Our commitment to excellence has been recognized at state and national levels.
           </p>
         </div>
@@ -43,7 +43,7 @@ export default function AchievementsSection() {
           {items.map((item, i) => {
             const Icon = getIcon(item.icon);
             return (
-              <div key={item.id} className={`card-elevated group ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
+              <div key={item.id} className={`card-elevated group ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-11 h-11 rounded-xl bg-primary/10 group-hover:bg-primary/15 flex items-center justify-center transition-colors">
                     <Icon size={22} className="text-primary" />

@@ -27,13 +27,13 @@ export default function LeadershipSection() {
     <section ref={ref} className="py-20 lg:py-28 bg-warm">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>
             {get("leadership", "section_label", "Our Pillars")}
           </span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             {get("leadership", "section_title", "Meet Our Leadership")}
           </h2>
-          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
             Visionary leaders dedicated to shaping the future of education.
           </p>
         </div>
@@ -41,7 +41,7 @@ export default function LeadershipSection() {
           {members.map((m, i) => {
             const photo = getPhotoUrl(m.photo_path);
             return (
-              <div key={m.id} className={`card-elevated overflow-hidden p-0 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.1}s` }}>
+              <div key={m.id} className={`card-elevated overflow-hidden p-0 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.15 + i * 0.1}s` }}>
                 {photo && <img src={photo} alt={m.name} className="w-full h-60 object-cover" loading="lazy" />}
                 <div className="p-6">
                   <h3 className="font-display font-bold text-lg text-foreground">{m.name}</h3>

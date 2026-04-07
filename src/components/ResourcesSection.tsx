@@ -25,19 +25,19 @@ export default function ResourcesSection() {
     <section ref={ref} className="py-20 lg:py-28">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>
             {get("resources", "section_label", "Resources")}
           </span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             {get("resources", "section_title", "Downloads & Documents")}
           </h2>
-          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
             Access important school documents and resources.
           </p>
         </div>
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {resources.map((r, i) => (
-            <div key={r.id} className={`card-elevated flex flex-col ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.07}s` }}>
+            <div key={r.id} className={`card-elevated flex flex-col ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.15 + i * 0.07}s` }}>
               <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                 <FileText size={22} className="text-primary" />
               </div>

@@ -58,18 +58,18 @@ export default function ContactSection() {
     <section id="contact" ref={ref} className="py-20 lg:py-28 bg-warm">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>Get in Touch</span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>Get in Touch</span>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             We'd Love to Hear From You
           </h2>
-          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
             Have questions about admissions or want to schedule a campus visit? Reach out to us.
           </p>
         </div>
 
         <div className="mt-14 grid lg:grid-cols-5 gap-8">
           {/* Contact info */}
-          <div className={`lg:col-span-2 space-y-5 ${isVisible ? "animate-fade-in-left" : "opacity-0"}`} style={{ animationDelay: "0.2s" }}>
+          <div className={`lg:col-span-2 space-y-5 ${isVisible ? "animate-fade-in-left" : ""}`} style={{ animationDelay: "0.2s" }}>
             {info.map((item) => (
               <div key={item.label} className="flex items-start gap-4 group">
                 <div className="w-11 h-11 rounded-xl bg-primary/10 group-hover:bg-primary/15 flex items-center justify-center flex-shrink-0 transition-colors">
@@ -90,7 +90,7 @@ export default function ContactSection() {
           </div>
 
           {/* Form */}
-          <div className={`lg:col-span-3 ${isVisible ? "animate-fade-in-right" : "opacity-0"}`} style={{ animationDelay: "0.3s" }}>
+          <div className={`lg:col-span-3 ${isVisible ? "animate-fade-in-right" : ""}`} style={{ animationDelay: "0.3s" }}>
             <div className="card-elevated">
               <h3 className="font-display font-bold text-xl text-foreground mb-6">Send us a Message</h3>
               {submitted ? (

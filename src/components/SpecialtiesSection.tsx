@@ -30,13 +30,13 @@ export default function SpecialtiesSection() {
     <section id="programs" ref={ref} className="py-20 lg:py-28">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>
             {get("specialties", "section_label", "Our Specialties")}
           </span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             {get("specialties", "section_title", "What Makes Us Special")}
           </h2>
-          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
             Everything we do is designed to unlock your child's full potential in a safe, inspiring environment.
           </p>
         </div>
@@ -44,7 +44,7 @@ export default function SpecialtiesSection() {
           {items.map((item, i) => {
             const Icon = getIcon(item.icon);
             return (
-              <div key={item.id} className={`card-elevated ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.1 + i * 0.07}s` }}>
+              <div key={item.id} className={`card-elevated ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.1 + i * 0.07}s` }}>
                 <div className="w-12 h-12 rounded-xl bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center transition-colors">
                   <Icon size={24} className="text-primary" />
                 </div>

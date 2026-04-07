@@ -26,15 +26,15 @@ export default function FAQSection() {
     <section ref={ref} className="py-20 lg:py-28">
       <div className="max-w-3xl mx-auto section-padding">
         <div className="text-center">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>FAQ</span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>FAQ</span>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             Frequently Asked Questions
           </h2>
-          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
             Everything you need to know about IIRA International School.
           </p>
         </div>
-        <div className={`mt-12 space-y-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.2s" }}>
+        <div className={`mt-12 space-y-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.2s" }}>
           {faqs.map((faq, i) => (
             <div key={faq.id} className="bg-card border border-border rounded-xl overflow-hidden transition-shadow hover:shadow-sm">
               <button onClick={() => setOpen(open === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left hover:bg-secondary/30 transition-colors active:scale-[0.995]">
@@ -50,7 +50,7 @@ export default function FAQSection() {
           ))}
         </div>
 
-        <div className={`mt-10 text-center ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.3s" }}>
+        <div className={`mt-10 text-center ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.3s" }}>
           <p className="text-sm text-muted-foreground font-body">
             Still have questions?{" "}
             <a href="#contact" className="text-primary font-semibold hover:underline">Get in touch</a>

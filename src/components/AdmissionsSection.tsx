@@ -61,16 +61,16 @@ export default function AdmissionsSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Copy */}
           <div className="text-center lg:text-left">
-            <span className={`text-sm font-bold uppercase tracking-[0.2em] text-primary-foreground/70 font-body ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
+            <span className={`text-sm font-bold uppercase tracking-[0.2em] text-primary-foreground/70 font-body ${isVisible ? "animate-fade-in-up" : ""}`}>
               {label}
             </span>
-            <h2 className={`mt-3 text-3xl sm:text-4xl lg:text-[2.75rem] font-display font-bold text-primary-foreground text-balance ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ lineHeight: "1.12", animationDelay: "0.1s" }}>
+            <h2 className={`mt-3 text-3xl sm:text-4xl lg:text-[2.75rem] font-display font-bold text-primary-foreground text-balance ${isVisible ? "animate-fade-in-up" : ""}`} style={{ lineHeight: "1.12", animationDelay: "0.1s" }}>
               {title}
             </h2>
-            <p className={`mt-5 text-primary-foreground/80 font-body text-base leading-relaxed ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+            <p className={`mt-5 text-primary-foreground/80 font-body text-base leading-relaxed ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
               {description}
             </p>
-            <div className={`mt-6 space-y-3 hidden lg:block ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.2s" }}>
+            <div className={`mt-6 space-y-3 hidden lg:block ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.2s" }}>
               {["No entrance test for Nursery & KG", "Scholarship for meritorious students", "Safe school bus transport available"].map((text) => (
                 <div key={text} className="flex items-center gap-2 text-primary-foreground/80 text-sm font-body">
                   <CheckCircle2 size={16} className="text-accent flex-shrink-0" />
@@ -81,7 +81,7 @@ export default function AdmissionsSection() {
           </div>
 
           {/* Right: Form */}
-          <div className={`bg-primary-foreground/5 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-primary-foreground/10 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.25s" }}>
+          <div className={`bg-primary-foreground/5 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-primary-foreground/10 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.25s" }}>
             {submitted ? (
               <div className="py-12 text-center">
                 <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-5">
