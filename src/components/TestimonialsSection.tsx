@@ -39,11 +39,11 @@ export default function TestimonialsSection() {
     <section id="testimonials" ref={ref} className="py-20 lg:py-28">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>Testimonials</span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>Testimonials</span>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             What Parents Say About Us
           </h2>
-          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+          <p className={`section-subtitle ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
             Don't take our word for it — hear from the families who trust us with their children's future.
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function TestimonialsSection() {
           {testimonials.map((t, i) => {
             const photo = getPhotoUrl(t.photo_path);
             return (
-              <div key={t.parent_name + i} className={`card-elevated relative ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
+              <div key={t.parent_name + i} className={`card-elevated relative ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
                 <Quote size={32} className="text-primary/10 absolute top-5 right-5" />
                 <div className="flex gap-0.5 mb-4">
                   {[...Array(t.rating)].map((_, j) => (

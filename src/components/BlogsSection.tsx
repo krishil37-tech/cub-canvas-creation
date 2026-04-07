@@ -30,19 +30,19 @@ export default function BlogsSection() {
     <section ref={ref} className="py-20 lg:py-28 bg-warm">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>
             {get("blogs", "section_label", "Community Blogs")}
           </span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             {get("blogs", "section_title", "Voices from IIRA")}
           </h2>
-          <p className={`mt-3 text-muted-foreground font-body ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
+          <p className={`mt-3 text-muted-foreground font-body ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.15s" }}>
             {get("blogs", "section_description", "Explore stories, ideas, and perspectives shared by students, mentors, educators, and school leadership.")}
           </p>
         </div>
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogs.map((b, i) => (
-            <div key={b.id} className={`bg-card rounded-2xl p-6 shadow-sm shadow-foreground/5 border border-border flex flex-col ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
+            <div key={b.id} className={`bg-card rounded-2xl p-6 shadow-sm shadow-foreground/5 border border-border flex flex-col ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
               <span className={`text-xs font-bold font-body px-3 py-1 rounded-full self-start ${typeColors[b.type] || "bg-secondary text-muted-foreground"}`}>{b.type}</span>
               <h3 className="mt-3 text-lg font-display font-bold text-foreground">{b.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground font-body leading-relaxed flex-1">{b.description}</p>

@@ -25,8 +25,8 @@ export default function ProgramsSection() {
     <section id="programs" ref={ref} className="py-20 lg:py-28">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>{sectionLabel}</span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>{sectionLabel}</span>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             {sectionTitle}
           </h2>
         </div>
@@ -35,7 +35,7 @@ export default function ProgramsSection() {
           {programs.map((p, i) => {
             const Icon = iconMap[p.icon] || Shapes;
             return (
-              <div key={p.title} className={`group bg-card rounded-2xl p-6 shadow-sm shadow-foreground/5 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-border hover:border-primary/20 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.1 + i * 0.08}s` }}>
+              <div key={p.title} className={`group bg-card rounded-2xl p-6 shadow-sm shadow-foreground/5 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-border hover:border-primary/20 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.1 + i * 0.08}s` }}>
                 <div className="w-12 h-12 rounded-xl bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center transition-colors">
                   <Icon size={24} className="text-primary" />
                 </div>

@@ -52,12 +52,12 @@ export default function StatsBar() {
   return (
     <section ref={ref} className="relative bg-card py-12 lg:py-16 border-y border-border">
       <div className="max-w-6xl mx-auto section-padding">
-        <p className={`text-center text-muted-foreground font-body text-sm max-w-xl mx-auto mb-10 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
+        <p className={`text-center text-muted-foreground font-body text-sm max-w-xl mx-auto mb-10 ${isVisible ? "animate-fade-in-up" : ""}`}>
           {tagline}
         </p>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4">
           {stats.map((s, i) => (
-            <div key={s.label} className={`text-center relative ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${i * 0.1}s` }}>
+            <div key={s.label} className={`text-center relative ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${i * 0.1}s` }}>
               <div className="text-3xl lg:text-4xl font-display font-bold text-primary">
                 <AnimatedNumber target={s.value} />
               </div>

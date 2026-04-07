@@ -27,10 +27,10 @@ export default function EducatorsSection() {
     <section ref={ref} className="py-20 lg:py-28">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="text-center max-w-2xl mx-auto">
-          <span className={`section-label ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}>
+          <span className={`section-label ${isVisible ? "animate-fade-in-up" : ""}`}>
             {get("educators", "section_label", "Our Educators")}
           </span>
-          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.1s" }}>
+          <h2 className={`section-title mt-3 ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             {get("educators", "section_title", "Meet Our Teachers")}
           </h2>
         </div>
@@ -38,7 +38,7 @@ export default function EducatorsSection() {
           {educators.map((e, i) => {
             const photo = getPhotoUrl(e.photo_path);
             return (
-              <div key={e.id} className={`bg-card rounded-2xl overflow-hidden shadow-sm shadow-foreground/5 border border-border text-center ${isVisible ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
+              <div key={e.id} className={`bg-card rounded-2xl overflow-hidden shadow-sm shadow-foreground/5 border border-border text-center ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
                 {photo ? (
                   <img src={photo} alt={e.name} className="w-full h-48 object-cover" />
                 ) : (
