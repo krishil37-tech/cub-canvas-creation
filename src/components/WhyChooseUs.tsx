@@ -27,7 +27,7 @@ export default function WhyChooseUs() {
     <section id="about" ref={ref} className="py-20 lg:py-28 bg-warm overflow-hidden">
       <div className="max-w-7xl mx-auto section-padding">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className={isVisible ? "animate-fade-in-left" : "opacity-0"}>
+          <div className={isVisible ? "animate-fade-in-left" : ""}>
             <div className="relative">
               <img src={whyChoose} alt="IIRA International School campus" className="rounded-2xl shadow-2xl shadow-foreground/10 w-full object-cover aspect-[4/3]" loading="lazy" />
               <div className="absolute -bottom-5 -right-3 sm:-right-5 bg-primary text-primary-foreground rounded-xl px-5 py-3 shadow-xl shadow-primary/25 font-body font-bold text-base animate-float">
@@ -39,7 +39,7 @@ export default function WhyChooseUs() {
             </div>
           </div>
 
-          <div className={isVisible ? "animate-fade-in-right" : "opacity-0"} style={{ animationDelay: "0.15s" }}>
+          <div className={isVisible ? "animate-fade-in-right" : ""} style={{ animationDelay: "0.15s" }}>
             <span className="section-label">{sectionLabel}</span>
             <h2 className="section-title mt-3">{sectionTitle}</h2>
             <p className="mt-5 text-muted-foreground font-body leading-relaxed max-w-lg text-[15px]">{description}</p>
