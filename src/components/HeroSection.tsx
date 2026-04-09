@@ -3,6 +3,10 @@ import { ChevronLeft, ChevronRight, ArrowRight, Shield, Award, Users } from "luc
 import hero1 from "@/assets/hero-1.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import { useSiteContent } from "@/hooks/useSiteContent";
+import { supabase } from "@/integrations/supabase/client";
+
+const BUCKET = "site-images";
+const getUrl = (p: string) => supabase.storage.from(BUCKET).getPublicUrl(p).data.publicUrl;
 
 const defaultSlides = [
   { image: hero1, title: "Building Future Leaders Since 2009", subtitle: "CBSE-aligned education from Nursery to Class X — where tradition meets modern excellence in Vadodara's most progressive school." },
@@ -17,11 +21,22 @@ const trustBadges = [
 
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
-  const { get } = useSiteContent();
+  const { get, getJSON } = useSiteContent();
+
+  // Get uploaded hero images from DB
+  const heroImages = getJSON<string[]>("hero", "images", []);
 
   const slides = [
-    { image: hero1, title: get("hero", "slide1_title", defaultSlides[0].title), subtitle: get("hero", "slide1_subtitle", defaultSlides[0].subtitle) },
-    { image: hero2, title: get("hero", "slide2_title", defaultSlides[1].title), subtitle: get("hero", "slide2_subtitle", defaultSlides[1].subtitle) },
+    {
+      image: heroImages.length > 0 ? getUrl(heroImages[0]) : hero1,
+      title: get("hero", "slide1_title", defaultSlides[0].title),
+      subtitle: get("hero", "slide1_subtitle", defaultSlides[0].subtitle),
+    },
+    {
+      image: heroImages.length > 1 ? getUrl(heroImages[1]) : hero2,
+      title: get("hero", "slide2_title", defaultSlides[1].title),
+      subtitle: get("hero", "slide2_subtitle", defaultSlides[1].subtitle),
+    },
   ];
 
   const ctaText = get("hero", "cta_text", "Apply for Admission →");
