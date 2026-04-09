@@ -1,7 +1,11 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { Heart, BookOpen, Shield, Palette, Users, Award, Check } from "lucide-react";
-import whyChoose from "@/assets/why-choose.jpg";
+import whyChooseFallback from "@/assets/why-choose.jpg";
 import { useSiteContent } from "@/hooks/useSiteContent";
+import { supabase } from "@/integrations/supabase/client";
+
+const BUCKET = "site-images";
+const getUrl = (p: string) => supabase.storage.from(BUCKET).getPublicUrl(p).data.publicUrl;
 
 const iconList = [Heart, BookOpen, Shield, Palette, Users, Award];
 const defaultReasons = [
@@ -22,6 +26,8 @@ export default function WhyChooseUs() {
   const description = get("about", "description", "The IIRA International School Vadodara is about the spirit, morals and ethics of India. A revolutionary, futuristic and tranquil institution nurtures an ideal educational environment. A blend of tradition and modernity, this institution imparts a natural impetus towards excellence in all spheres of life.");
   const badgeText = get("about", "badge_text", "15+ Years of Trust");
   const reasons = getJSON<typeof defaultReasons>("about", "reasons", defaultReasons);
+  const imagePath = get("about", "image", "");
+  const sectionImage = imagePath ? getUrl(imagePath) : whyChooseFallback;
 
   return (
     <section id="about" ref={ref} className="py-20 lg:py-28 bg-warm overflow-hidden">
@@ -29,7 +35,7 @@ export default function WhyChooseUs() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className={isVisible ? "animate-fade-in-left" : ""}>
             <div className="relative">
-              <img src={whyChoose} alt="IIRA International School campus" className="rounded-2xl shadow-2xl shadow-foreground/10 w-full object-cover aspect-[4/3]" loading="lazy" />
+              <img src={sectionImage} alt="IIRA International School campus" className="rounded-2xl shadow-2xl shadow-foreground/10 w-full object-cover aspect-[4/3]" loading="lazy" />
               <div className="absolute -bottom-5 -right-3 sm:-right-5 bg-primary text-primary-foreground rounded-xl px-5 py-3 shadow-xl shadow-primary/25 font-body font-bold text-base animate-float">
                 🏆 {badgeText}
               </div>

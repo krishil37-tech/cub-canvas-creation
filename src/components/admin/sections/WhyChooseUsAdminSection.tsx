@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Save, Plus, Trash2 } from "lucide-react";
+import { Save, Plus, Trash2, Upload, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+
+const BUCKET = "site-images";
+const getPublicUrl = (p: string) => supabase.storage.from(BUCKET).getPublicUrl(p).data.publicUrl;
 
 async function upsertContent(section: string, key: string, value: string) {
   const { data: existing } = await supabase.from("site_content").select("id").eq("section", section).eq("key", key).maybeSingle();
@@ -19,6 +22,9 @@ export default function WhyChooseUsAdminSection() {
   const [sectionTitle, setSectionTitle] = useState("More Than a School");
   const [description, setDescription] = useState("The IIRA International School Vadodara is about the spirit, morals and ethics of India. A revolutionary, futuristic and tranquil institution nurtures an ideal educational environment. A blend of tradition and modernity, this institution imparts a natural impetus towards excellence in all spheres of life.");
   const [badgeText, setBadgeText] = useState("10+ Years of Trust");
+  const [imagePath, setImagePath] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [features, setFeatures] = useState<{ text: string }[]>([
     { text: "Experienced & Dedicated Faculty" },
     { text: "CBSE Curriculum with Holistic Approach" },
@@ -39,10 +45,36 @@ export default function WhyChooseUsAdminSection() {
           if (r.key === "description") setDescription(r.value);
           if (r.key === "badge_text") setBadgeText(r.value);
           if (r.key === "reasons") try { setFeatures(JSON.parse(r.value)); } catch {}
+          if (r.key === "image") setImagePath(r.value);
         }
       }
     })();
   }, []);
+
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    // Remove old image if exists
+    if (imagePath) {
+      await supabase.storage.from(BUCKET).remove([imagePath]);
+    }
+    const ext = file.name.split(".").pop();
+    const path = `about/${Date.now()}.${ext}`;
+    const { error } = await supabase.storage.from(BUCKET).upload(path, file);
+    if (error) { toast.error(error.message); setUploading(false); return; }
+    setImagePath(path);
+    setUploading(false);
+    if (fileRef.current) fileRef.current.value = "";
+    toast.success("Image uploaded!");
+  };
+
+  const removeImage = async () => {
+    if (imagePath) {
+      await supabase.storage.from(BUCKET).remove([imagePath]);
+      setImagePath("");
+    }
+  };
 
   const addFeature = () => {
     if (!newFeature.trim()) return;
@@ -59,12 +91,37 @@ export default function WhyChooseUsAdminSection() {
       upsertContent("about", "description", description),
       upsertContent("about", "badge_text", badgeText),
       upsertContent("about", "reasons", JSON.stringify(features)),
+      upsertContent("about", "image", imagePath),
     ]);
     toast.success("Why Choose Us section saved!");
   };
 
   return (
     <div className="space-y-4">
+      {/* Section Image */}
+      <h4 className="font-display font-bold text-sm">Section Image</h4>
+      <div className="flex items-start gap-4">
+        {imagePath ? (
+          <div className="relative w-40 h-28 rounded-lg overflow-hidden border border-border">
+            <img src={getPublicUrl(imagePath)} className="w-full h-full object-cover" />
+            <button onClick={removeImage} className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1">
+              <Trash2 className="h-3 w-3" />
+            </button>
+          </div>
+        ) : (
+          <div className="w-40 h-28 rounded-lg border-2 border-dashed border-border flex items-center justify-center">
+            <ImageIcon className="h-8 w-8 text-muted-foreground" />
+          </div>
+        )}
+        <div>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={uploadImage} />
+          <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()} disabled={uploading}>
+            <Upload className="h-4 w-4 mr-1" /> {uploading ? "Uploading…" : "Change Image"}
+          </Button>
+          <p className="text-xs text-muted-foreground mt-1">Recommended: 800×600px</p>
+        </div>
+      </div>
+
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <Label className="font-body text-xs">Section Label</Label>
