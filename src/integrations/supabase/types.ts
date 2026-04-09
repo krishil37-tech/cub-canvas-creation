@@ -94,6 +94,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          image_path: string | null
           is_visible: boolean
           link: string
           sort_order: number
@@ -104,6 +105,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          image_path?: string | null
           is_visible?: boolean
           link?: string
           sort_order?: number
@@ -114,6 +116,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          image_path?: string | null
           is_visible?: boolean
           link?: string
           sort_order?: number
@@ -161,6 +164,7 @@ export type Database = {
           description: string
           event_date: string
           id: string
+          image_path: string | null
           is_visible: boolean
           sort_order: number
           title: string
@@ -170,6 +174,7 @@ export type Database = {
           description?: string
           event_date?: string
           id?: string
+          image_path?: string | null
           is_visible?: boolean
           sort_order?: number
           title: string
@@ -179,6 +184,7 @@ export type Database = {
           description?: string
           event_date?: string
           id?: string
+          image_path?: string | null
           is_visible?: boolean
           sort_order?: number
           title?: string
