@@ -4,7 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { ExternalLink } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
-type Blog = { id: string; type: string; title: string; description: string; link: string };
+const BUCKET = "site-images";
+const getUrl = (p: string) => supabase.storage.from(BUCKET).getPublicUrl(p).data.publicUrl;
+
+type Blog = { id: string; type: string; title: string; description: string; link: string; image_path: string | null };
 
 export default function BlogsSection() {
   const { ref, isVisible } = useScrollReveal();
@@ -12,7 +15,7 @@ export default function BlogsSection() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
 
   useEffect(() => {
-    supabase.from("blogs").select("*").eq("is_visible", true).order("sort_order").then(({ data }) => {
+    (supabase as any).from("blogs").select("*").eq("is_visible", true).order("sort_order").then(({ data }: any) => {
       if (data) setBlogs(data);
     });
   }, []);
@@ -42,15 +45,22 @@ export default function BlogsSection() {
         </div>
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogs.map((b, i) => (
-            <div key={b.id} className={`bg-card rounded-2xl p-6 shadow-sm shadow-foreground/5 border border-border flex flex-col ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
-              <span className={`text-xs font-bold font-body px-3 py-1 rounded-full self-start ${typeColors[b.type] || "bg-secondary text-muted-foreground"}`}>{b.type}</span>
-              <h3 className="mt-3 text-lg font-display font-bold text-foreground">{b.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground font-body leading-relaxed flex-1">{b.description}</p>
-              {b.link && (
-                <a href={b.link} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1.5 text-sm font-body font-semibold text-primary hover:underline">
-                  Visit Blog <ExternalLink size={14} />
-                </a>
+            <div key={b.id} className={`bg-card rounded-2xl overflow-hidden shadow-sm shadow-foreground/5 border border-border flex flex-col ${isVisible ? "animate-fade-in-up" : ""}`} style={{ animationDelay: `${0.15 + i * 0.08}s` }}>
+              {b.image_path && (
+                <div className="aspect-[16/9] overflow-hidden">
+                  <img src={getUrl(b.image_path)} alt={b.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" />
+                </div>
               )}
+              <div className="p-6 flex flex-col flex-1">
+                <span className={`text-xs font-bold font-body px-3 py-1 rounded-full self-start ${typeColors[b.type] || "bg-secondary text-muted-foreground"}`}>{b.type}</span>
+                <h3 className="mt-3 text-lg font-display font-bold text-foreground">{b.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground font-body leading-relaxed flex-1">{b.description}</p>
+                {b.link && (
+                  <a href={b.link} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1.5 text-sm font-body font-semibold text-primary hover:underline">
+                    Visit Blog <ExternalLink size={14} />
+                  </a>
+                )}
+              </div>
             </div>
           ))}
         </div>

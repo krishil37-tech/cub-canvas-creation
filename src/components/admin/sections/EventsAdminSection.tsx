@@ -7,12 +7,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Plus, Trash2, CalendarIcon } from "lucide-react";
+import { Plus, Trash2, CalendarIcon, Upload, ImageIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-type Event = { id: string; title: string; event_date: string; description: string; sort_order: number; is_visible: boolean };
+const BUCKET = "site-images";
+const getUrl = (p: string) => supabase.storage.from(BUCKET).getPublicUrl(p).data.publicUrl;
+
+type Event = { id: string; title: string; event_date: string; description: string; sort_order: number; is_visible: boolean; image_path: string | null };
 
 const currentYear = new Date().getFullYear();
 const lastYear = currentYear - 1;
@@ -20,8 +23,8 @@ const lastYear = currentYear - 1;
 export default function EventsAdminSection() {
   const [items, setItems] = useState<Event[]>([]);
   const [showAdd, setShowAdd] = useState(false);
-  const [yearFilter, setYearFilter] = useState<number>(currentYear);
   const [form, setForm] = useState({ title: "", event_date: new Date(), description: "" });
+  const [addPhoto, setAddPhoto] = useState<File | null>(null);
 
   const load = async () => {
     const { data } = await (supabase as any).from("events").select("*").order("event_date", { ascending: false });
@@ -29,18 +32,28 @@ export default function EventsAdminSection() {
   };
   useEffect(() => { load(); }, []);
 
+  const [yearFilter, setYearFilter] = useState<number>(currentYear);
   const filtered = items.filter(e => new Date(e.event_date).getFullYear() === yearFilter);
 
   const add = async () => {
     if (!form.title) return;
+    let image_path: string | null = null;
+    if (addPhoto) {
+      const ext = addPhoto.name.split(".").pop();
+      const path = `events/${Date.now()}.${ext}`;
+      await supabase.storage.from(BUCKET).upload(path, addPhoto);
+      image_path = path;
+    }
     const maxOrder = items.length > 0 ? Math.max(...items.map(i => i.sort_order)) + 1 : 0;
     await (supabase as any).from("events").insert({
       title: form.title,
       event_date: format(form.event_date, "yyyy-MM-dd"),
       description: form.description,
       sort_order: maxOrder,
+      image_path,
     });
     setForm({ title: "", event_date: new Date(), description: "" });
+    setAddPhoto(null);
     setShowAdd(false);
     load();
     toast.success("Event added!");
@@ -51,8 +64,22 @@ export default function EventsAdminSection() {
     load();
   };
 
-  const remove = async (id: string) => {
-    await (supabase as any).from("events").delete().eq("id", id);
+  const uploadPhoto = async (id: string, file: File, oldPath: string | null) => {
+    if (oldPath) await supabase.storage.from(BUCKET).remove([oldPath]);
+    const ext = file.name.split(".").pop();
+    const path = `events/${Date.now()}.${ext}`;
+    await supabase.storage.from(BUCKET).upload(path, file);
+    update(id, { image_path: path });
+  };
+
+  const removePhoto = async (id: string, path: string) => {
+    await supabase.storage.from(BUCKET).remove([path]);
+    update(id, { image_path: null });
+  };
+
+  const remove = async (item: Event) => {
+    if (item.image_path) await supabase.storage.from(BUCKET).remove([item.image_path]);
+    await (supabase as any).from("events").delete().eq("id", item.id);
     load();
     toast.success("Deleted!");
   };
@@ -94,6 +121,10 @@ export default function EventsAdminSection() {
               <Label className="text-xs font-body">Description</Label>
               <Textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={2} />
             </div>
+            <div>
+              <Label className="text-xs font-body">Event Image (optional)</Label>
+              <Input type="file" accept="image/*" onChange={e => setAddPhoto(e.target.files?.[0] || null)} />
+            </div>
             <div className="flex gap-2">
               <Button size="sm" onClick={add}>Add</Button>
               <Button size="sm" variant="ghost" onClick={() => setShowAdd(false)}>Cancel</Button>
@@ -106,15 +137,29 @@ export default function EventsAdminSection() {
         <Card key={item.id}>
           <CardContent className="pt-4">
             <div className="flex items-start gap-3">
-              <div className="text-center shrink-0 w-16">
-                <div className="text-2xl font-display font-bold text-primary">{format(parseISO(item.event_date), "dd")}</div>
-                <div className="text-xs text-muted-foreground font-body">{format(parseISO(item.event_date), "MMM yyyy")}</div>
+              {/* Image preview */}
+              {item.image_path ? (
+                <div className="relative w-20 h-16 rounded-lg overflow-hidden border border-border shrink-0">
+                  <img src={getUrl(item.image_path)} className="w-full h-full object-cover" />
+                  <button onClick={() => removePhoto(item.id, item.image_path!)} className="absolute top-0.5 right-0.5 bg-destructive text-destructive-foreground rounded-full p-0.5">
+                    <Trash2 className="h-2.5 w-2.5" />
+                  </button>
+                </div>
+              ) : (
+                <div className="w-20 h-16 rounded-lg border-2 border-dashed border-border flex items-center justify-center shrink-0">
+                  <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                </div>
+              )}
+              <div className="text-center shrink-0 w-14">
+                <div className="text-xl font-display font-bold text-primary">{format(parseISO(item.event_date), "dd")}</div>
+                <div className="text-xs text-muted-foreground font-body">{format(parseISO(item.event_date), "MMM yy")}</div>
               </div>
               <div className="flex-1 space-y-2">
                 <Input defaultValue={item.title} onBlur={e => { if (e.target.value !== item.title) update(item.id, { title: e.target.value }); }} className="font-bold" />
                 <Textarea defaultValue={item.description} onBlur={e => { if (e.target.value !== item.description) update(item.id, { description: e.target.value }); }} rows={2} />
+                <Input type="file" accept="image/*" className="text-xs" onChange={e => { if (e.target.files?.[0]) uploadPhoto(item.id, e.target.files[0], item.image_path); }} />
               </div>
-              <Button size="icon" variant="ghost" className="text-destructive h-8 w-8" onClick={() => remove(item.id)}><Trash2 className="h-4 w-4" /></Button>
+              <Button size="icon" variant="ghost" className="text-destructive h-8 w-8" onClick={() => remove(item)}><Trash2 className="h-4 w-4" /></Button>
             </div>
           </CardContent>
         </Card>
