@@ -42,22 +42,27 @@ export default function ChatbotWidget({ preview = false, forceOpen, onClose }: P
   }, [open, embedCode]);
 
   const handleOpen = async () => {
-    setOpen(true);
-    if (!loggedRef.current) {
-      loggedRef.current = true;
-      try {
-        await supabase.from("chatbot_engagements").insert({
-          page_path: window.location.pathname,
-          user_agent: navigator.userAgent.slice(0, 500),
-          event_type: "opened",
-        });
-      } catch {
-        // silent — never block UX on logging
-      }
+    setInternalOpen(true);
+    if (preview || loggedRef.current) return;
+    loggedRef.current = true;
+    try {
+      await supabase.from("chatbot_engagements").insert({
+        page_path: window.location.pathname,
+        user_agent: navigator.userAgent.slice(0, 500),
+        event_type: "opened",
+      });
+    } catch {
+      // silent — never block UX on logging
     }
   };
 
-  if (loading || !enabled) return null;
+  const handleClose = () => {
+    setInternalOpen(false);
+    onClose?.();
+  };
+
+  if (loading) return null;
+  if (!preview && !enabled) return null;
 
   const sideClass = position === "left" ? "left-5" : "right-5";
 
@@ -89,7 +94,7 @@ export default function ChatbotWidget({ preview = false, forceOpen, onClose }: P
               <div className="text-[11px] opacity-90 font-body">{welcome}</div>
             </div>
             <button
-              onClick={() => setOpen(false)}
+              onClick={handleClose}
               aria-label="Close chat"
               className="p-1 rounded-full hover:bg-white/20 transition-colors"
             >
