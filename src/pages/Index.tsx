@@ -17,6 +17,7 @@ import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ChatbotWidget from "@/components/ChatbotWidget";
 import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
@@ -44,6 +45,7 @@ const Index = () => {
     <div className="min-h-screen">
       <Navbar />
       <WhatsAppButton />
+      <ChatbotWidget />
       <main>
         <HeroSection />
         <StatsBar />

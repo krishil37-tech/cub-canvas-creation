@@ -12,6 +12,7 @@ import Inquiries from "./pages/admin/Inquiries.tsx";
 import Admissions from "./pages/admin/Admissions.tsx";
 import Testimonials from "./pages/admin/Testimonials.tsx";
 import Images from "./pages/admin/Images.tsx";
+import ChatbotEngagements from "./pages/admin/ChatbotEngagements.tsx";
 
 import HomePage from "./pages/admin/content/Home.tsx";
 import WhyChooseUsPage from "./pages/admin/content/WhyChooseUs.tsx";
@@ -28,6 +29,7 @@ import ResourcesPage from "./pages/admin/content/Resources.tsx";
 import FAQPage from "./pages/admin/content/FAQ.tsx";
 import ContactPage from "./pages/admin/content/Contact.tsx";
 import SocialPage from "./pages/admin/content/Social.tsx";
+import ChatbotPage from "./pages/admin/content/Chatbot.tsx";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +48,7 @@ const App = () => (
             <Route path="admissions" element={<Admissions />} />
             <Route path="testimonials" element={<Testimonials />} />
             <Route path="images" element={<Images />} />
+            <Route path="chatbot-engagements" element={<ChatbotEngagements />} />
 
             <Route path="content/home" element={<HomePage />} />
             <Route path="content/why" element={<WhyChooseUsPage />} />
@@ -62,6 +65,7 @@ const App = () => (
             <Route path="content/faq" element={<FAQPage />} />
             <Route path="content/contact" element={<ContactPage />} />
             <Route path="content/social" element={<SocialPage />} />
+            <Route path="content/chatbot" element={<ChatbotPage />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
