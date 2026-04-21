@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Save, MessageCircle } from "lucide-react";
+import { Save, MessageCircle, Play } from "lucide-react";
 import { toast } from "sonner";
+import ChatbotWidget from "@/components/ChatbotWidget";
 
 async function upsertContent(section: string, key: string, value: string) {
   const { data: existing } = await supabase
@@ -27,6 +28,7 @@ export default function ChatbotAdminSection() {
   const [color, setColor] = useState("#F97316");
   const [position, setPosition] = useState<"right" | "left">("right");
   const [saving, setSaving] = useState(false);
+  const [testOpen, setTestOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -149,10 +151,30 @@ export default function ChatbotAdminSection() {
         </div>
       </div>
 
-      <Button onClick={save} disabled={saving}>
-        <Save className="h-4 w-4 mr-2" />
-        {saving ? "Saving…" : "Save Chatbot Settings"}
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        <Button onClick={save} disabled={saving}>
+          <Save className="h-4 w-4 mr-2" />
+          {saving ? "Saving…" : "Save Chatbot Settings"}
+        </Button>
+        <Button type="button" variant="outline" onClick={() => setTestOpen(true)}>
+          <Play className="h-4 w-4 mr-2" />
+          Test Chatbot
+        </Button>
+      </div>
+
+      {/* Live preview using current form values — no engagement logging */}
+      <ChatbotWidget
+        preview
+        forceOpen={testOpen}
+        onClose={() => setTestOpen(false)}
+        overrides={{
+          name,
+          welcome,
+          embedCode,
+          color,
+          position,
+        }}
+      />
     </div>
   );
 }

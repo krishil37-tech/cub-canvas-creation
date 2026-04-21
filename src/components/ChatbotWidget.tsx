@@ -3,59 +3,88 @@ import { MessageCircle, X } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { supabase } from "@/integrations/supabase/client";
 
-export default function ChatbotWidget() {
+interface Overrides {
+  name?: string;
+  welcome?: string;
+  embedCode?: string;
+  color?: string;
+  position?: "right" | "left";
+}
+
+interface Props {
+  /** Preview mode: ignores the `enabled` setting and skips engagement logging. */
+  preview?: boolean;
+  /** Controlled open state (used by admin Test button). */
+  forceOpen?: boolean;
+  onClose?: () => void;
+  /** Override saved settings (used by admin Test button to preview unsaved edits). */
+  overrides?: Overrides;
+}
+
+export default function ChatbotWidget({ preview = false, forceOpen, onClose, overrides }: Props) {
   const { get, loading } = useSiteContent();
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = forceOpen !== undefined ? forceOpen : internalOpen;
   const containerRef = useRef<HTMLDivElement>(null);
   const loggedRef = useRef(false);
 
   const enabled = get("chatbot", "enabled", "false") === "true";
-  const botName = get("chatbot", "name", "IIRA Assistant");
-  const welcome = get("chatbot", "welcome", "Hi! How can we help you today?");
-  const embedCode = get("chatbot", "embed_code", "");
-  const color = get("chatbot", "color", "#F97316");
-  const position = get("chatbot", "position", "right"); // 'right' | 'left'
+  const botName = overrides?.name ?? get("chatbot", "name", "IIRA Assistant");
+  const welcome = overrides?.welcome ?? get("chatbot", "welcome", "Hi! How can we help you today?");
+  const embedCode = overrides?.embedCode ?? get("chatbot", "embed_code", "");
+  const color = overrides?.color ?? get("chatbot", "color", "#F97316");
+  const position = overrides?.position ?? get("chatbot", "position", "right"); // 'right' | 'left'
 
-  // Inject embed code once when first opened
+  // Inject embed code when opened (re-injects if embedCode changes — e.g. live preview)
   useEffect(() => {
-    if (!open || !embedCode || !containerRef.current) return;
-    if (containerRef.current.dataset.injected === "true") return;
+    if (!open || !containerRef.current) return;
+    const el = containerRef.current;
+    if (!embedCode) {
+      el.innerHTML = "";
+      el.dataset.injected = "";
+      return;
+    }
+    if (el.dataset.injected === embedCode) return;
 
-    containerRef.current.innerHTML = embedCode;
-    // Re-execute any <script> tags found in embed code
-    containerRef.current.querySelectorAll("script").forEach((oldScript) => {
+    el.innerHTML = embedCode;
+    el.querySelectorAll("script").forEach((oldScript) => {
       const newScript = document.createElement("script");
       Array.from(oldScript.attributes).forEach((attr) => newScript.setAttribute(attr.name, attr.value));
       newScript.text = oldScript.text;
       oldScript.parentNode?.replaceChild(newScript, oldScript);
     });
-    containerRef.current.dataset.injected = "true";
+    el.dataset.injected = embedCode;
   }, [open, embedCode]);
 
   const handleOpen = async () => {
-    setOpen(true);
-    if (!loggedRef.current) {
-      loggedRef.current = true;
-      try {
-        await supabase.from("chatbot_engagements").insert({
-          page_path: window.location.pathname,
-          user_agent: navigator.userAgent.slice(0, 500),
-          event_type: "opened",
-        });
-      } catch {
-        // silent — never block UX on logging
-      }
+    setInternalOpen(true);
+    if (preview || loggedRef.current) return;
+    loggedRef.current = true;
+    try {
+      await supabase.from("chatbot_engagements").insert({
+        page_path: window.location.pathname,
+        user_agent: navigator.userAgent.slice(0, 500),
+        event_type: "opened",
+      });
+    } catch {
+      // silent — never block UX on logging
     }
   };
 
-  if (loading || !enabled) return null;
+  const handleClose = () => {
+    setInternalOpen(false);
+    onClose?.();
+  };
+
+  if (loading) return null;
+  if (!preview && !enabled) return null;
 
   const sideClass = position === "left" ? "left-5" : "right-5";
 
   return (
     <>
-      {/* Floating button */}
-      {!open && (
+      {/* Floating button (hidden in preview mode) */}
+      {!open && !preview && (
         <button
           onClick={handleOpen}
           aria-label="Open chat"
@@ -80,7 +109,7 @@ export default function ChatbotWidget() {
               <div className="text-[11px] opacity-90 font-body">{welcome}</div>
             </div>
             <button
-              onClick={() => setOpen(false)}
+              onClick={handleClose}
               aria-label="Close chat"
               className="p-1 rounded-full hover:bg-white/20 transition-colors"
             >
