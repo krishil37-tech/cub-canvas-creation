@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -29,17 +30,9 @@ export default function Navbar() {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-card/95 backdrop-blur-md shadow-lg shadow-foreground/5 h-16" : "bg-transparent h-18 lg:h-20"}`} role="navigation" aria-label="Main navigation">
       <div className="max-w-7xl mx-auto section-padding flex items-center justify-between h-full">
-        <a href="#home" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-md shadow-primary/20 group-hover:shadow-primary/40 transition-shadow">
-            <span className="text-primary-foreground font-black text-xs font-body">IC</span>
-          </div>
-          <div className="flex flex-col">
-            <span className={`font-display font-bold text-lg leading-tight transition-colors ${scrolled ? "text-foreground" : "text-primary-foreground"}`}>
-              IIRA Cubs
-            </span>
-            <span className={`text-[10px] font-body font-semibold uppercase tracking-wider leading-none transition-colors ${scrolled ? "text-muted-foreground" : "text-primary-foreground/60"}`}>
-              International School
-            </span>
+        <a href="#home" className="flex items-center group" aria-label="IIRA Cubs Pre-School Home">
+          <div className={`flex items-center justify-center transition-all rounded-lg ${scrolled ? "bg-transparent" : "bg-card/95 backdrop-blur-sm shadow-md px-2 py-1"}`}>
+            <img src={logo} alt="IIRA Cubs Pre-School" className={`transition-all ${scrolled ? "h-11" : "h-12"} w-auto object-contain`} />
           </div>
         </a>
 
