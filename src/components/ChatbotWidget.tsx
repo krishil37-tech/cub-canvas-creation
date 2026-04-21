@@ -35,20 +35,25 @@ export default function ChatbotWidget({ preview = false, forceOpen, onClose, ove
   const color = overrides?.color ?? get("chatbot", "color", "#F97316");
   const position = overrides?.position ?? get("chatbot", "position", "right"); // 'right' | 'left'
 
-  // Inject embed code once when first opened
+  // Inject embed code when opened (re-injects if embedCode changes — e.g. live preview)
   useEffect(() => {
-    if (!open || !embedCode || !containerRef.current) return;
-    if (containerRef.current.dataset.injected === "true") return;
+    if (!open || !containerRef.current) return;
+    const el = containerRef.current;
+    if (!embedCode) {
+      el.innerHTML = "";
+      el.dataset.injected = "";
+      return;
+    }
+    if (el.dataset.injected === embedCode) return;
 
-    containerRef.current.innerHTML = embedCode;
-    // Re-execute any <script> tags found in embed code
-    containerRef.current.querySelectorAll("script").forEach((oldScript) => {
+    el.innerHTML = embedCode;
+    el.querySelectorAll("script").forEach((oldScript) => {
       const newScript = document.createElement("script");
       Array.from(oldScript.attributes).forEach((attr) => newScript.setAttribute(attr.name, attr.value));
       newScript.text = oldScript.text;
       oldScript.parentNode?.replaceChild(newScript, oldScript);
     });
-    containerRef.current.dataset.injected = "true";
+    el.dataset.injected = embedCode;
   }, [open, embedCode]);
 
   const handleOpen = async () => {
