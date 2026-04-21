@@ -3,15 +3,25 @@ import { MessageCircle, X } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { supabase } from "@/integrations/supabase/client";
 
+interface Overrides {
+  name?: string;
+  welcome?: string;
+  embedCode?: string;
+  color?: string;
+  position?: "right" | "left";
+}
+
 interface Props {
   /** Preview mode: ignores the `enabled` setting and skips engagement logging. */
   preview?: boolean;
   /** Controlled open state (used by admin Test button). */
   forceOpen?: boolean;
   onClose?: () => void;
+  /** Override saved settings (used by admin Test button to preview unsaved edits). */
+  overrides?: Overrides;
 }
 
-export default function ChatbotWidget({ preview = false, forceOpen, onClose }: Props) {
+export default function ChatbotWidget({ preview = false, forceOpen, onClose, overrides }: Props) {
   const { get, loading } = useSiteContent();
   const [internalOpen, setInternalOpen] = useState(false);
   const open = forceOpen !== undefined ? forceOpen : internalOpen;
@@ -19,11 +29,11 @@ export default function ChatbotWidget({ preview = false, forceOpen, onClose }: P
   const loggedRef = useRef(false);
 
   const enabled = get("chatbot", "enabled", "false") === "true";
-  const botName = get("chatbot", "name", "IIRA Assistant");
-  const welcome = get("chatbot", "welcome", "Hi! How can we help you today?");
-  const embedCode = get("chatbot", "embed_code", "");
-  const color = get("chatbot", "color", "#F97316");
-  const position = get("chatbot", "position", "right"); // 'right' | 'left'
+  const botName = overrides?.name ?? get("chatbot", "name", "IIRA Assistant");
+  const welcome = overrides?.welcome ?? get("chatbot", "welcome", "Hi! How can we help you today?");
+  const embedCode = overrides?.embedCode ?? get("chatbot", "embed_code", "");
+  const color = overrides?.color ?? get("chatbot", "color", "#F97316");
+  const position = overrides?.position ?? get("chatbot", "position", "right"); // 'right' | 'left'
 
   // Inject embed code once when first opened
   useEffect(() => {
