@@ -1,0 +1,102 @@
+import { useEffect, useState, useRef } from "react";
+import { MessageCircle, X } from "lucide-react";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { supabase } from "@/integrations/supabase/client";
+
+export default function ChatbotWidget() {
+  const { get, loading } = useSiteContent();
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const loggedRef = useRef(false);
+
+  const enabled = get("chatbot", "enabled", "false") === "true";
+  const botName = get("chatbot", "name", "IIRA Assistant");
+  const welcome = get("chatbot", "welcome", "Hi! How can we help you today?");
+  const embedCode = get("chatbot", "embed_code", "");
+  const color = get("chatbot", "color", "#F97316");
+  const position = get("chatbot", "position", "right"); // 'right' | 'left'
+
+  // Inject embed code once when first opened
+  useEffect(() => {
+    if (!open || !embedCode || !containerRef.current) return;
+    if (containerRef.current.dataset.injected === "true") return;
+
+    containerRef.current.innerHTML = embedCode;
+    // Re-execute any <script> tags found in embed code
+    containerRef.current.querySelectorAll("script").forEach((oldScript) => {
+      const newScript = document.createElement("script");
+      Array.from(oldScript.attributes).forEach((attr) => newScript.setAttribute(attr.name, attr.value));
+      newScript.text = oldScript.text;
+      oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
+    containerRef.current.dataset.injected = "true";
+  }, [open, embedCode]);
+
+  const handleOpen = async () => {
+    setOpen(true);
+    if (!loggedRef.current) {
+      loggedRef.current = true;
+      try {
+        await supabase.from("chatbot_engagements").insert({
+          page_path: window.location.pathname,
+          user_agent: navigator.userAgent.slice(0, 500),
+          event_type: "opened",
+        });
+      } catch {
+        // silent — never block UX on logging
+      }
+    }
+  };
+
+  if (loading || !enabled) return null;
+
+  const sideClass = position === "left" ? "left-5" : "right-5";
+
+  return (
+    <>
+      {/* Floating button */}
+      {!open && (
+        <button
+          onClick={handleOpen}
+          aria-label="Open chat"
+          className={`fixed bottom-5 ${sideClass} z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-transform animate-pulse`}
+          style={{ backgroundColor: color }}
+        >
+          <MessageCircle className="h-6 w-6" />
+        </button>
+      )}
+
+      {/* Chat panel */}
+      {open && (
+        <div
+          className={`fixed bottom-5 ${sideClass} z-50 w-[min(380px,calc(100vw-2.5rem))] h-[min(560px,calc(100vh-2.5rem))] bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden`}
+        >
+          <div
+            className="flex items-center justify-between px-4 py-3 text-white"
+            style={{ backgroundColor: color }}
+          >
+            <div>
+              <div className="font-display font-bold text-sm">{botName}</div>
+              <div className="text-[11px] opacity-90 font-body">{welcome}</div>
+            </div>
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Close chat"
+              className="p-1 rounded-full hover:bg-white/20 transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          <div ref={containerRef} className="flex-1 overflow-auto bg-background">
+            {!embedCode && (
+              <div className="p-6 text-center text-sm text-muted-foreground font-body">
+                Chatbot is enabled but no embed code has been configured yet. Add one from the Admin Panel → Chatbot section.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
