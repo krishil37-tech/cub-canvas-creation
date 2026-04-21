@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, MessageSquare, GraduationCap, Star, Image, LogOut,
   Home, Heart, Sparkles, Trophy, Calendar, Users, BookOpen, School,
-  FileText, HelpCircle, MapPin, Share2,
+  FileText, HelpCircle, MapPin, Share2, MessageCircle,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -22,6 +22,7 @@ const mainItems = [
   { title: "Admissions", url: "/admin/admissions", icon: GraduationCap },
   { title: "Testimonials", url: "/admin/testimonials", icon: Star },
   { title: "Images", url: "/admin/images", icon: Image },
+  { title: "Chatbot Engagement", url: "/admin/chatbot-engagements", icon: MessageCircle },
 ];
 
 const contentItems = [
@@ -40,6 +41,7 @@ const contentItems = [
   { title: "FAQ", url: "/admin/content/faq", icon: HelpCircle },
   { title: "Contact", url: "/admin/content/contact", icon: MapPin },
   { title: "Social Media", url: "/admin/content/social", icon: Share2 },
+  { title: "Chatbot", url: "/admin/content/chatbot", icon: MessageCircle },
 ];
 
 interface Props {
