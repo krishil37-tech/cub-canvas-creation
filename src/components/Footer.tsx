@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Facebook, Instagram, Twitter, Youtube, Linkedin, Globe, MapPin, Phone, Mail, ArrowUp } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
+import logo from "@/assets/logo.png";
 
 type SocialLink = { id: string; platform: string; url: string };
 
@@ -43,14 +44,8 @@ export default function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-black text-xs font-body">IC</span>
-              </div>
-              <div>
-                <span className="font-display font-bold text-primary-foreground text-lg block leading-tight">IIRA Cubs</span>
-                <span className="text-[10px] font-body font-semibold uppercase tracking-wider text-primary-foreground/40">International School</span>
-              </div>
+            <div className="inline-flex items-center justify-center bg-card rounded-lg p-2.5 mb-4 shadow-sm">
+              <img src={logo} alt="IIRA Cubs Pre-School" className="h-14 w-auto object-contain" />
             </div>
             <p className="text-sm font-body leading-relaxed max-w-xs">
               Building future leaders through a blend of tradition, innovation, and holistic education since 2009.
