@@ -3,9 +3,18 @@ import { MessageCircle, X } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { supabase } from "@/integrations/supabase/client";
 
-export default function ChatbotWidget() {
+interface Props {
+  /** Preview mode: ignores the `enabled` setting and skips engagement logging. */
+  preview?: boolean;
+  /** Controlled open state (used by admin Test button). */
+  forceOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function ChatbotWidget({ preview = false, forceOpen, onClose }: Props) {
   const { get, loading } = useSiteContent();
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = forceOpen !== undefined ? forceOpen : internalOpen;
   const containerRef = useRef<HTMLDivElement>(null);
   const loggedRef = useRef(false);
 
