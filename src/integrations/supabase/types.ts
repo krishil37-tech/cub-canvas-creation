@@ -125,6 +125,30 @@ export type Database = {
         }
         Relationships: []
       }
+      chatbot_engagements: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          page_path: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          page_path?: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          page_path?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       educators: {
         Row: {
           created_at: string
