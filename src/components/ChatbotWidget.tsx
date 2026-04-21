@@ -68,8 +68,8 @@ export default function ChatbotWidget({ preview = false, forceOpen, onClose }: P
 
   return (
     <>
-      {/* Floating button */}
-      {!open && (
+      {/* Floating button (hidden in preview mode) */}
+      {!open && !preview && (
         <button
           onClick={handleOpen}
           aria-label="Open chat"
