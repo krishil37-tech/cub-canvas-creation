@@ -20,8 +20,6 @@ const mainItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard, end: true },
   { title: "Inquiries", url: "/admin/inquiries", icon: MessageSquare },
   { title: "Admissions", url: "/admin/admissions", icon: GraduationCap },
-  { title: "Testimonials", url: "/admin/testimonials", icon: Star },
-  { title: "Images", url: "/admin/images", icon: Image },
   { title: "Chatbot Engagement", url: "/admin/chatbot-engagements", icon: MessageCircle },
 ];
 
