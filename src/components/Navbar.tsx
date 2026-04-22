@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import logo from "@/assets/logo.png";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -48,10 +49,13 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Mobile toggle */}
-        <button onClick={() => setMenuOpen(!menuOpen)} className={`lg:hidden p-2 transition-colors ${scrolled ? "text-foreground" : "text-primary-foreground"}`} aria-label="Toggle menu">
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile right cluster */}
+        <div className="lg:hidden flex items-center gap-1">
+          <ThemeToggle variant={scrolled ? "light" : "dark"} />
+          <button onClick={() => setMenuOpen(!menuOpen)} className={`p-2 transition-colors ${scrolled ? "text-foreground" : "text-primary-foreground"}`} aria-label="Toggle menu">
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
