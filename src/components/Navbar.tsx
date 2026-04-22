@@ -47,6 +47,7 @@ export default function Navbar() {
           <a href="#admissions" className="btn-primary text-sm px-5 py-2.5">
             Apply Now
           </a>
+          <ThemeToggle variant={scrolled ? "light" : "dark"} />
         </div>
 
         {/* Mobile right cluster */}
