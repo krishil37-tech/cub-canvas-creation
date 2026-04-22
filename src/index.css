@@ -116,6 +116,11 @@
     background: hsl(28 90% 52% / 0.15);
     color: hsl(20 25% 12%);
   }
+  /* Protect media from any theme-related filter/blend changes */
+  img, video, picture, svg.logo {
+    filter: none !important;
+    mix-blend-mode: normal !important;
+  }
 }
 
 @layer utilities {

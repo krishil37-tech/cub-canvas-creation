@@ -32,7 +32,7 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-card/95 backdrop-blur-md shadow-lg shadow-foreground/5 h-16" : "bg-transparent h-18 lg:h-20"}`} role="navigation" aria-label="Main navigation">
       <div className="max-w-7xl mx-auto section-padding flex items-center justify-between h-full">
         <a href="#home" className="flex items-center group" aria-label="IIRA Cubs Pre-School Home">
-          <div className={`flex items-center justify-center transition-all rounded-lg ${scrolled ? "bg-transparent" : "bg-card/95 backdrop-blur-sm shadow-md px-2 py-1"}`}>
+          <div className={`flex items-center justify-center transition-all rounded-lg bg-card/95 backdrop-blur-sm shadow-md ${scrolled ? "px-1.5 py-0.5" : "px-2 py-1"}`}>
             <img src={logo} alt="IIRA Cubs Pre-School" className={`transition-all ${scrolled ? "h-11" : "h-12"} w-auto object-contain`} />
           </div>
         </a>
