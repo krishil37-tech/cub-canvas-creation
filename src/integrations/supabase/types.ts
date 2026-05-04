@@ -341,6 +341,33 @@ export type Database = {
         }
         Relationships: []
       }
+      nav_links: {
+        Row: {
+          created_at: string
+          id: string
+          is_visible: boolean
+          label: string
+          sort_order: number
+          target: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          label: string
+          sort_order?: number
+          target?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          label?: string
+          sort_order?: number
+          target?: string
+        }
+        Relationships: []
+      }
       resources: {
         Row: {
           created_at: string
