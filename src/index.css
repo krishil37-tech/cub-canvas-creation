@@ -116,11 +116,59 @@
     background: hsl(28 90% 52% / 0.15);
     color: hsl(20 25% 12%);
   }
-  /* Protect media from any theme-related filter/blend changes */
-  img, video, picture, svg.logo {
+  /* Protect media from any theme-related filter/blend/opacity changes */
+  img, video, picture, canvas, svg.logo, .protect-media {
     filter: none !important;
+    -webkit-filter: none !important;
     mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    image-rendering: auto;
   }
+  .dark img, .dark video, .dark picture, .dark canvas, .dark svg.logo, .dark .protect-media {
+    filter: none !important;
+    -webkit-filter: none !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+  }
+}
+
+@layer components {
+  /* Logo backplate that auto-switches between themes so the logo never washes out */
+  .logo-surface {
+    @apply bg-card/95 backdrop-blur-sm shadow-sm border border-border/40 rounded-xl;
+  }
+  .dark .logo-surface {
+    background: hsl(40 30% 96% / 0.95);
+    border-color: hsl(40 30% 80% / 0.4);
+  }
+
+  /* Liquid-glass hovering nav */
+  .liquid-glass {
+    background: linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.35));
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow:
+      0 10px 40px -10px hsl(var(--foreground) / 0.18),
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.35);
+  }
+  .dark .liquid-glass {
+    background: linear-gradient(135deg, hsl(220 18% 18% / 0.55), hsl(220 18% 14% / 0.35));
+    box-shadow:
+      0 10px 40px -10px hsl(0 0% 0% / 0.5),
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.08);
+  }
+  .liquid-link {
+    @apply relative px-4 py-2 rounded-full text-sm font-semibold font-body text-foreground/85 hover:text-primary transition-all;
+  }
+  .liquid-link::before {
+    content: "";
+    @apply absolute inset-0 rounded-full opacity-0 transition-opacity;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.18), hsl(var(--primary) / 0.06));
+    backdrop-filter: blur(8px);
+  }
+  .liquid-link:hover::before { opacity: 1; }
+  .liquid-link > span { @apply relative z-10; }
 }
 
 @layer utilities {

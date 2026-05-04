@@ -30,6 +30,7 @@ import FAQPage from "./pages/admin/content/FAQ.tsx";
 import ContactPage from "./pages/admin/content/Contact.tsx";
 import SocialPage from "./pages/admin/content/Social.tsx";
 import ChatbotPage from "./pages/admin/content/Chatbot.tsx";
+import NavigationPage from "./pages/admin/content/Navigation.tsx";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="images" element={<Images />} />
             <Route path="chatbot-engagements" element={<ChatbotEngagements />} />
 
+            <Route path="content/navigation" element={<NavigationPage />} />
             <Route path="content/home" element={<HomePage />} />
             <Route path="content/why" element={<WhyChooseUsPage />} />
             <Route path="content/specialties" element={<SpecialtiesPage />} />

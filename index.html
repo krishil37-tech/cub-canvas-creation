@@ -47,6 +47,16 @@
   </head>
 
   <body>
+    <script>
+      // Apply persisted theme BEFORE React mounts to avoid any flash or
+      // image re-paint that could look like a filter change.
+      (function () {
+        try {
+          var t = localStorage.getItem('iira-theme');
+          if (t === 'dark') document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

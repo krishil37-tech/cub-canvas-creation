@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import Navbar from "@/components/Navbar";
+import { useEffect, useState } from "react";
+import LiquidGlassNav from "@/components/LiquidGlassNav";
 import HeroSection from "@/components/HeroSection";
 import StatsBar from "@/components/StatsBar";
 import WhyChooseUs from "@/components/WhyChooseUs";
@@ -18,36 +18,46 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ChatbotWidget from "@/components/ChatbotWidget";
+import PageLoader from "@/components/PageLoader";
 import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    // Hydrate theme from DB AFTER mount (localStorage is already applied
+    // pre-mount by index.html). DB is the source of truth across devices.
     const loadTheme = async () => {
-      const { data } = await supabase
-        .from("site_content")
-        .select("value")
-        .eq("section", "settings")
-        .eq("key", "theme")
-        .maybeSingle();
-      if (data?.value === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+      try {
+        const { data } = await supabase
+          .from("site_content")
+          .select("value")
+          .eq("section", "settings")
+          .eq("key", "theme")
+          .maybeSingle();
+        if (data?.value === "dark") {
+          document.documentElement.classList.add("dark");
+          try { localStorage.setItem("iira-theme", "dark"); } catch {}
+        } else if (data?.value === "light") {
+          document.documentElement.classList.remove("dark");
+          try { localStorage.setItem("iira-theme", "light"); } catch {}
+        }
+      } catch {}
     };
     loadTheme();
-    return () => {
-      document.documentElement.classList.remove("dark");
-    };
+
+    const t = setTimeout(() => setLoading(false), 750);
+    return () => clearTimeout(t);
   }, []);
 
   return (
     <div className="min-h-screen">
-      <Navbar />
+      {loading && <PageLoader />}
       <WhatsAppButton />
       <ChatbotWidget />
       <main>
         <HeroSection />
+        <LiquidGlassNav />
         <StatsBar />
         <WhyChooseUs />
         <SpecialtiesSection />
