@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, MessageSquare, GraduationCap, Star, Image, LogOut,
   Home, Heart, Sparkles, Trophy, Calendar, Users, BookOpen, School,
-  FileText, HelpCircle, MapPin, Share2, MessageCircle,
+  FileText, HelpCircle, MapPin, Share2, MessageCircle, Menu,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -24,6 +24,7 @@ const mainItems = [
 ];
 
 const contentItems = [
+  { title: "Navigation", url: "/admin/content/navigation", icon: Menu },
   { title: "Home", url: "/admin/content/home", icon: Home },
   { title: "Why Choose Us", url: "/admin/content/why", icon: Heart },
   { title: "Our Specialties", url: "/admin/content/specialties", icon: Sparkles },
