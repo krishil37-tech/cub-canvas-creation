@@ -6,9 +6,10 @@ interface ThemeToggleProps {
   variant?: "light" | "dark";
 }
 
+const STORAGE_KEY = "iira-theme";
+
 export default function ThemeToggle({ variant = "dark" }: ThemeToggleProps) {
   const [isDark, setIsDark] = useState(false);
-  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
@@ -19,26 +20,25 @@ export default function ThemeToggle({ variant = "dark" }: ThemeToggleProps) {
     return () => observer.disconnect();
   }, []);
 
-  const toggle = async () => {
-    if (saving) return;
+  const toggle = () => {
     const next = !isDark;
     setIsDark(next);
     if (next) document.documentElement.classList.add("dark");
     else document.documentElement.classList.remove("dark");
 
-    setSaving(true);
+    // Persist locally first (instant, survives reload)
     try {
-      await supabase
-        .from("site_content")
-        .upsert(
-          { section: "settings", key: "theme", value: next ? "dark" : "light" },
-          { onConflict: "section,key" }
-        );
-    } catch (e) {
-      // Silent — theme still applied locally for this session
-    } finally {
-      setSaving(false);
-    }
+      localStorage.setItem(STORAGE_KEY, next ? "dark" : "light");
+    } catch {}
+
+    // Background sync to DB — never blocks UI, never affects images
+    supabase
+      .from("site_content")
+      .upsert(
+        { section: "settings", key: "theme", value: next ? "dark" : "light" },
+        { onConflict: "section,key" }
+      )
+      .then(() => {});
   };
 
   const colorClass =
